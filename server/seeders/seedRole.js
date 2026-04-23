@@ -6,7 +6,7 @@ const roles = [
     role: 'admin',
     roleDescription:
       'Manage users , assign flat to resident , generate bills , manage complaints',
-      },
+  },
   {
     role: 'resident',
     roleDescription:
@@ -23,7 +23,7 @@ const seedRoles = async () => {
     const connection = await mongoose.connect(
       'mongodb+srv://riteshpatidar088:q7bRXvvZiLsqgccO@cluster0.b2vgi2d.mongodb.net/sms?appName=Cluster0'
     );
-    console.log('connection is up')
+    console.log('connection is up');
 
     const newRoles = await Role.insertMany(roles);
     console.log(newRoles);
@@ -32,5 +32,9 @@ const seedRoles = async () => {
   }
 };
 
+seedRoles();
 
-seedRoles()
+//create role api
+// update role api => solution
+//get role
+// delete role => solution
