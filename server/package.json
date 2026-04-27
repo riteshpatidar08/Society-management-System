@@ -8,7 +8,8 @@
     "dev": "nodemon app.js",
     "start": "node app.js",
     "seed:role": "node ./seeders/seedRole.js",
-    "seed:user" : "node ./seeders/seedUser.js"
+    "seed:user": "node ./seeders/seedUser.js",
+    "seed:flat": "node ./seeders/seedFlat.js"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,8 @@
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "mongoose": "^9.5.0"
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.5.0",
+    "nodemailer": "^8.0.6"
   }
 }
