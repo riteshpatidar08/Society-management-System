@@ -13,6 +13,6 @@ const flatSchema = new mongoose.Schema({
   
 });
 
-const Flat = mongoose.model('Flat', flatSchema);
+const Flat = mongoose.model('Flat' , flatSchema)
 
 export default Flat;

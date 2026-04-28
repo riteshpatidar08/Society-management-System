@@ -2,8 +2,9 @@ import Role from '../model/role.model.js';
 import User from '../model/user.model.js';
 import { generateHash } from '../lib/hashPassword.js';
 import { generatePassword } from '../lib/generatePassword.js';
-import transporter from '../lib/sendMail.js'
+import transporter from '../lib/sendMail.js';
 //register
+import { newUserRegistrationTemplate } from './../templates/NewUserRegistration.js';
 export const register = async (req, res) => {
   try {
     const { name, email, phone, roleId, flatId } = req.body;
@@ -35,13 +36,25 @@ export const register = async (req, res) => {
       name,
       email,
       phone,
+      role: roleId,
       password: hashPass,
       flat: role.role === 'resident' ? flatId : undefined,
     });
 
-    transporter.sendMail({
-        
-    })
+    const alluserData = await User.findById(NewUser._id).populate('role');
+    console.log(alluserData);
+
+    await transporter.sendMail({
+      from: `SMS TEAM ${process.env.SMTP_USER}`,
+      to: NewUser.email,
+      subject: '',
+      html: newUserRegistrationTemplate(password, NewUser.name),
+    });
+
+    res.status(201).json({
+      message: 'success',
+      data: alluserData,
+    });
   } catch (error) {
     res.json({
       error: error.message,
@@ -54,3 +67,5 @@ export const login = async (req, res) => {
   try {
   } catch (error) {}
 };
+
+//role apis  + flat data seed uski api
