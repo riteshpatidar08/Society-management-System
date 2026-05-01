@@ -106,6 +106,7 @@ export const login = async (req, res) => {
 };
 
 export const verify = async(req,res)=>{
+
   res.send('running')
 }
 
@@ -117,3 +118,4 @@ export const verify = async(req,res)=>{
 //flat api crud //
 
 //login => success => verify => token => middleware => controller => res.send(authentic : true)
+
