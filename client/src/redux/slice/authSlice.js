@@ -13,10 +13,18 @@ const counterSlice = createSlice({
     name : 'counter' ,
     reducers : {
         increment : function(state){
+            console.log(state.count)
           state.count += 1 ;
         }
     }
 })
 
+//what is the typeof counterSlice variable ?
+
+
 export default counterSlice.reducer ;
 export const {increment} = counterSlice.actions
+
+console.log(counterSlice)
+
+
