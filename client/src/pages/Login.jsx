@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
 const Login = () => {
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -60,7 +62,7 @@ const Login = () => {
             <div className="w-10 h-10 bg-white rounded-ds-md flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#005c2b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
             </div>
-            <span className="text-white font-bold text-xl tracking-tight">SMS Portal</span>
+            <span className="text-white font-bold text-xl tracking-tight">Society Management System </span>
           </div>
 
           <div className="max-w-md">
