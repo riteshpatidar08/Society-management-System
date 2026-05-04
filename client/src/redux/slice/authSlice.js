@@ -1,30 +1,51 @@
-//slice //reducer //dispatch // initial state //store 
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import {createSlice} from "@reduxjs/toolkit" ;
-
+import axios from 'axios';
 
 const initialState = {
-    count : 0
-}
+  loading: false,
+  message: null,
+};
 
-
-const counterSlice = createSlice({
-    initialState ,
-    name : 'counter' ,
-    reducers : {
-        increment : function(state){
-            console.log(state.count)
-          state.count += 1 ;
-        }
+export const login = createAsyncThunk(
+  '/auth_login',
+  async ({ formData }, thunkApi) => {
+    try {
+      console.log(formData);
+      console.log(thunkApi);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        formData
+      );
+      console.log(res.data);
+      return res.data;
+    } catch (error) {
+        console.log(error)
+   return thunkApi.rejectWithValue(error)
     }
-})
+  }
+);
 
-//what is the typeof counterSlice variable ?
+const authSlice = createSlice({
+  initialState,
+  name: 'auth',
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload.message;
+      }).addCase(login.rejected , (state,action)=>{
+        console.log(action)
+      })
+  },
+});
 
+export default authSlice.reducer;
 
-export default counterSlice.reducer ;
-export const {increment} = counterSlice.actions
+//state variable fetch  //set
 
-console.log(counterSlice)
-
-
+//api calling => async operation  thunks

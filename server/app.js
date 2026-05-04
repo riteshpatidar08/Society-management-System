@@ -2,9 +2,13 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDb from './db/config.js';
 import authRoutes from './routes/auth.routes.js';
-import cookieParser from 'cookie-parser'
+import roleRoutes from './routes/role.routes.js';
+import flatRoutes from './routes/flat.routes.js';
+import cookieParser from 'cookie-parser' ;
+import cors from 'cors'
 const app = express();
 app.use(express.json());
+app.use(cors());
 dotenv.config();
 app.use(cookieParser())
 
@@ -16,6 +20,8 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/roles', roleRoutes);
+app.use('/api/v1/flats', flatRoutes);
 
 app.listen(3000, () => {
   console.log('server is running');

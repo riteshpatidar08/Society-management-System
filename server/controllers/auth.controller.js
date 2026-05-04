@@ -101,21 +101,15 @@ export const login = async (req, res) => {
       message: 'Login successfull',
     });
   } catch (error) {
-    console.log(error);
+ res.status(500).json({
+  error : error.message
+ })
   }
 };
+
 
 export const verify = async(req,res)=>{
 
   res.send('running')
 }
-
-
-//role apis  + flat data seed uski api
-
-//registration with mail //
-//role api crud//
-//flat api crud //
-
-//login => success => verify => token => middleware => controller => res.send(authentic : true)
 

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-
+import { login } from '../redux/slice/AuthSlice';
+import { useDispatch } from 'react-redux';
 const Login = () => {
-
+const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -11,6 +12,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
+  console.log(formData)
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,28 +27,10 @@ const Login = () => {
     setError('');
     setMessage('');
 
-    try {
-      const response = await fetch('/api/v1/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
 
-      const data = await response.json();
+    dispatch(login({formData}));
 
-      if (response.ok) {
-        setMessage('Login successful! Redirecting...');
-        console.log('Login Success:', data);
-      } else {
-        setError(data.message || 'Login failed. Please check your credentials.');
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
+   
   };
 
   return (
