@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 const initialState = {
   loading: false,
   message: null,
+  isAuthenticated: false,
+  name: null,
+  email: null,
+  role: null,
 };
 
 export const login = createAsyncThunk(
@@ -15,13 +19,24 @@ export const login = createAsyncThunk(
       console.log(thunkApi);
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/login`,
-        formData
+        formData,
+        {
+          withCredentials: true,
+        }
       );
+      const verifyRes = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/verify`,
+        null,
+        {
+          withCredentials: true,
+        }
+      );
+
       console.log(res.data);
-      return res.data;
+      return { ...res.data, ...verifyRes.data };
     } catch (error) {
-        console.log(error)
-   return thunkApi.rejectWithValue(error)
+      console.log(error);
+      return thunkApi.rejectWithValue(error);
     }
   }
 );
@@ -38,9 +53,21 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.message = action.payload.message;
-      }).addCase(login.rejected , (state,action)=>{
-        console.log(action)
+        state.isAuthenticated = action.payload.authenticated;
+        const {name , email , role} = action.payload.data
+        state.name = name;
+        state.role = role;
+        state.email = email;
+        Cookies.set('name', name);
+        Cookies.set('email', email);
+        Cookies.set('role', role);
+        Cookies.set('isAuthenticated', action.payload.authenticated);
+        console.log(state.email, state.role, state.isAuthenticated, state.name);
+        console.log(action.payload);
       })
+      .addCase(login.rejected, (state, action) => {
+        console.log(action);
+      });
   },
 });
 
@@ -49,3 +76,7 @@ export default authSlice.reducer;
 //state variable fetch  //set
 
 //api calling => async operation  thunks
+
+//redux toolkit working flow  ?
+//thunk api toolkit ?
+//extraReducer ?

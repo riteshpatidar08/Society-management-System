@@ -94,7 +94,9 @@ export const login = async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true,
+      sameSite : 'lax',
+      secure : false
+      
     });
 
     res.status(200).json({
@@ -109,7 +111,12 @@ export const login = async (req, res) => {
 
 
 export const verify = async(req,res)=>{
+console.log(req.user) ;
 
-  res.send('running')
+ res.status(200).json({
+  authenticated : true ,
+  data : req.user
+ })
+
 }
 
