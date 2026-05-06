@@ -54,3 +54,16 @@ export const deleteFlat = async (req, res) => {
     res.json({ error: error.message });
   }
 };
+
+export  const getAvailableFlats  = async(req,res)=>{
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
+
+// /api/v1/users/:userId/assign-flat ;
+// flat id = req.body
+// roles avaialbe => ai => authSlice => role state ui rendering admin => admin dashboard ==> role = resident dashbaord =

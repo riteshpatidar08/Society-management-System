@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { login } from '../redux/slice/AuthSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector } from 'react-redux';
+
 const Login = () => {
 const dispatch = useDispatch()
+const  {loading}  = useSelector((state)=>state.auth) ;
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
   
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+
 
   console.log(formData)
   const handleChange = (e) => {
@@ -18,14 +19,12 @@ const dispatch = useDispatch()
       ...formData,
       [e.target.name]: e.target.value,
     });
-    setError('');
+   
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-    setMessage('');
+
 
 
     dispatch(login({formData}));
@@ -100,19 +99,19 @@ const dispatch = useDispatch()
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
+            
               <div className="bg-danger/10 border border-danger/20 text-danger text-xs p-4 rounded-ds-md flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                {error}
+              
               </div>
-            )}
+          
             
-            {message && (
+            
               <div className="bg-success/10 border border-success/20 text-success text-xs p-4 rounded-ds-md flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                {message}
+           
               </div>
-            )}
+          
 
             <div>
               <label className="overline-label block mb-2" htmlFor="email">Email Address</label>
@@ -162,10 +161,10 @@ const dispatch = useDispatch()
 
             <button
               type="submit"
-              disabled={loading}
+            
               className="btn w-full bg-primary-600 hover:bg-primary-700 text-white py-3 transition-all duration-200 shadow-lg shadow-primary-600/20 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {loading ? 'Verifying Account...' : 'Sign In to Portal'}
+          {loading ? 'Verifying Account...' : 'Sign In to Portal'}  
             </button>
           </form>
 

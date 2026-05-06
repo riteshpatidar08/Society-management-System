@@ -9,6 +9,7 @@ const initialState = {
   name: null,
   email: null,
   role: null,
+  error : null 
 };
 
 export const login = createAsyncThunk(
@@ -35,8 +36,8 @@ export const login = createAsyncThunk(
       console.log(res.data);
       return { ...res.data, ...verifyRes.data };
     } catch (error) {
-      console.log(error);
-      return thunkApi.rejectWithValue(error);
+      console.log(error.response.data);
+      return thunkApi.rejectWithValue(error.response.data);
     }
   }
 );
@@ -54,7 +55,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.message = action.payload.message;
         state.isAuthenticated = action.payload.authenticated;
-        const {name , email , role} = action.payload.data
+        const { name, email, role } = action.payload.data;
         state.name = name;
         state.role = role;
         state.email = email;
@@ -66,7 +67,8 @@ const authSlice = createSlice({
         console.log(action.payload);
       })
       .addCase(login.rejected, (state, action) => {
-        console.log(action);
+        state.loading = false
+        console.log(action.payload);
       });
   },
 });
@@ -80,3 +82,16 @@ export default authSlice.reducer;
 //redux toolkit working flow  ?
 //thunk api toolkit ?
 //extraReducer ?
+
+
+//NOTE assign resident to flat  ;
+
+//user id => client get => flat ki id 
+//get unassigned flat  ;
+//role fetch => dropdown main user registration form k andar  
+//fields => dropdown shows list of unassigned flat ;
+
+//NOTE get available flat
+
+//role slice  thunks
+//flat slice  thunks

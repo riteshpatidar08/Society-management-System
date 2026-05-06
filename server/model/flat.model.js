@@ -10,6 +10,10 @@ const flatSchema = new mongoose.Schema({
   floor: {
     type: Number,
   },
+  isOccupied : {
+    type : Boolean,
+    default : false
+  }
   
 });
 
