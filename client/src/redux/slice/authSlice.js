@@ -5,10 +5,10 @@ import axios from 'axios';
 const initialState = {
   loading: false,
   message: null,
-  isAuthenticated: false,
-  name: null,
-  email: null,
-  role: null,
+  isAuthenticated: Cookies.get('isAuthenticated') || null,
+  name: Cookies.get('name') || null,
+  email: Cookies.get('email') || null,
+  role:  Cookies.get('role') || null,
   error : null 
 };
 
@@ -42,10 +42,21 @@ export const login = createAsyncThunk(
   }
 );
 
+export const Signout = createAsyncThunk('/auth_logout', async(_ , thunkApi)=>{
+try {
+  const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout` ,   null,
+    {
+      withCredentials: true,
+    });
+  return res.data
+} catch (error) {
+  
+}
+})
+
 const authSlice = createSlice({
   initialState,
   name: 'auth',
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state, action) => {
@@ -66,13 +77,27 @@ const authSlice = createSlice({
         console.log(state.email, state.role, state.isAuthenticated, state.name);
         console.log(action.payload);
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(Signout.rejected, (state, action) => {
         state.loading = false
         console.log(action.payload);
-      });
+      }).addCase(Signout.pending , (state,action)=>{
+
+      }).addCase(Signout.fulfilled, (state,action)=>{
+        console.log(action.payload)
+        state.isAuthenticated = action.payload.authenticated;
+        Cookies.remove('isAuthenticated')
+        state.name = null;
+        state.email = null;
+        state.role = null;
+        
+        Cookies.remove('name');
+        Cookies.remove('email');
+        Cookies.remove('role');
+      })
   },
 });
 
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;
 
 //state variable fetch  //set
@@ -95,3 +120,5 @@ export default authSlice.reducer;
 
 //role slice  thunks
 //flat slice  thunks
+
+//logout => 
