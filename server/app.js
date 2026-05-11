@@ -4,6 +4,7 @@ import connectDb from './db/config.js';
 import authRoutes from './routes/auth.routes.js';
 import roleRoutes from './routes/role.routes.js';
 import flatRoutes from './routes/flat.routes.js';
+import UserRoutes from './routes/user.routes.js'
 import cookieParser from 'cookie-parser' ;
 import cors from 'cors'
 const app = express();
@@ -26,6 +27,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1', UserRoutes)
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/flats', flatRoutes);
 
