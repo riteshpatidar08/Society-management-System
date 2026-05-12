@@ -4,13 +4,16 @@ import './index.css'
 import App from './App.jsx'
 import {BrowserRouter} from 'react-router-dom'
 import {Provider} from 'react-redux';
+import {ChakraProvider , defaultSystem} from '@chakra-ui/react' 
 import store from './redux/store.js'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
+    {/* <ChakraProvider value={defaultSystem}> */}
     <Provider store={store}  >
     <App />
     </Provider>
+    {/* </ChakraProvider> */}
     </BrowserRouter>
    
   </StrictMode>,
