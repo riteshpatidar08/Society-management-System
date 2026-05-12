@@ -92,3 +92,9 @@ export const updateUser = async (req, res) => {
   }
 };
 
+
+
+
+//problem = 1 routing nested (strategy ready for the dashboard routing);
+//role slice with api integration + flat slice with api integration  (be ready)
+ //chakra ui setup krke aana hain in the manage user page you have use the getAlluser api and show the list of user in the table

@@ -55,13 +55,14 @@ export const deleteFlat = async (req, res) => {
   }
 };
 
-export  const getAvailableFlats  = async(req,res)=>{
+export const getAvailableFlats = async (req, res) => {
   try {
-    
+    const availableFlats = await Flat.find({ isOccupied: false });
+    res.status(200).json({ data: availableFlats });
   } catch (error) {
-    
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
 
 // /api/v1/users/:userId/assign-flat ;
