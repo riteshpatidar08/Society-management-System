@@ -8,6 +8,9 @@ import ManageUsers from '../component/ManageUsers';
 import Stats from '../component/Stats';
 
 import { useSelector } from 'react-redux';
+import ManageFlat from '../pages/ManageFlat';
+import ManageComplaints from '../pages/ManageComplaints';
+import ManageNotices from '../pages/ManageNotices';
 
 const RoleBasedIndex = () => {
   const { role } = useSelector((state) => state.auth);
@@ -31,10 +34,10 @@ function AppRoutes() {
            
             <Route path="stats" element={<Stats />} />
             <Route path="users" element={<ManageUsers />} />
-            <Route path="flats" element={<ManageUsers />} />
+            <Route path="flats" element={<ManageFlat/>} />
             <Route path="staff" element={<ManageUsers />} />
-            <Route path="complaints" element={<ManageUsers />} />
-            <Route path="notices" element={<ManageUsers />} />
+            <Route path="complaints" element={<ManageComplaints />} />
+            <Route path="notices" element={<ManageNotices />} />
 
           
             <Route path="my-flat" element={<ManageUsers />} />
