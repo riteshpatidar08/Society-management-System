@@ -6,6 +6,7 @@ import roleRoutes from './routes/role.routes.js';
 import flatRoutes from './routes/flat.routes.js';
 import UserRoutes from './routes/user.routes.js'
 import cookieParser from 'cookie-parser' ;
+import visitorsRoutes from './routes/visitors.routes.js'
 import cors from 'cors'
 const app = express();
 app.use(express.json());
@@ -30,7 +31,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1', UserRoutes)
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/flats', flatRoutes);
-
+app.use('/api/v1' , visitorsRoutes)
 app.listen(3000, () => {
   console.log('server is running');
 });

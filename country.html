@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Explorer - Neobrutalism</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbe6d2;
+            --primary: #ff90e8;
+            --secondary: #A3E635;
+            --accent: #FFD100;
+            --info: #00d1ff;
+            --border: #000;
+            --shadow: #000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Inter', sans-serif;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-weight: 900;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            background: var(--secondary);
+            padding: 0.5rem 1.5rem;
+            border: 4px solid var(--border);
+            box-shadow: 8px 8px 0px 0px var(--shadow);
+            transform: rotate(-1.5deg);
+            display: inline-block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .card {
+            background: #fff;
+            border: 4px solid var(--border);
+            box-shadow: 12px 12px 0px 0px var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .select-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 900;
+            pointer-events: none;
+        }
+
+        select {
+            width: 100%;
+            padding: 1.2rem;
+            font-family: inherit;
+            font-weight: 900;
+            font-size: 1.2rem;
+            border: 4px solid var(--border);
+            background: var(--accent);
+            cursor: pointer;
+            appearance: none;
+            outline: none;
+            transition: transform 0.1s ease;
+            text-transform: uppercase;
+        }
+
+        select:active {
+            transform: translate(2px, 2px);
+        }
+
+        select:focus {
+            background: var(--primary);
+        }
+
+        .details-card {
+            background: #fff;
+            border: 4px solid var(--border);
+            box-shadow: 10px 10px 0px 0px var(--shadow);
+            padding: 0;
+            animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.9) rotate(2deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .details-header {
+            background: var(--primary);
+            padding: 2rem;
+            border-bottom: 4px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .flag-img {
+            width: 100%;
+            max-width: 300px;
+            border: 4px solid var(--border);
+            box-shadow: 6px 6px 0px 0px var(--shadow);
+            background: #fff;
+        }
+
+        h2 {
+            font-weight: 900;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            text-align: center;
+            background: #fff;
+            padding: 0.5rem 1rem;
+            border: 4px solid var(--border);
+            box-shadow: 4px 4px 0px 0px var(--shadow);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0;
+            background: var(--border);
+            border-bottom: 4px solid var(--border);
+        }
+
+        .detail-item {
+            background: #fff;
+            padding: 1.5rem;
+            border: 2px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .detail-item:nth-child(odd) { background: #fafafa; }
+
+        .label {
+            text-transform: uppercase;
+            font-weight: 900;
+            font-size: 0.9rem;
+            background: var(--secondary);
+            padding: 0.2rem 0.5rem;
+            border: 2px solid var(--border);
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .value {
+            font-weight: 800;
+            font-size: 1.2rem;
+            word-break: break-word;
+        }
+
+        .map-link {
+            display: block;
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--info);
+            color: #000;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            border-top: 4px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .map-link:hover {
+            background: var(--accent);
+            letter-spacing: 2px;
+        }
+
+        .error {
+            background: #ff4d4d;
+            padding: 1.5rem;
+            border: 4px solid var(--border);
+            box-shadow: 6px 6px 0px 0px var(--shadow);
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .loader {
+            font-weight: 900;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin: 2rem 0;
+            text-align: center;
+            background: var(--accent);
+            padding: 1rem;
+            border: 4px solid var(--border);
+            box-shadow: 4px 4px 0px 0px var(--shadow);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.8rem; }
+            .details-header { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Country Explorer</h1>
+    
+    <div class="container">
+        <div class="card">
+            <div class="select-wrapper">
+                <select id="country-dropdown">
+                    <option value="">LOADING COUNTRIES...</option>
+                </select>
+            </div>
+            <div id="country-details"></div>
+        </div>
+    </div>
+
+    <script>
+        const sel = document.getElementById('country-dropdown');
+        const detailsDiv = document.getElementById('country-details');
+
+        // Initial fetch
+        fetch('https://restcountries.com/v3.1/all?fields=name,cca2')
+            .then(res => res.json())
+            .then(data => {
+                data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+                sel.innerHTML = '<option value="">-- SELECT A COUNTRY --</option>';
+                data.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = `https://restcountries.com/v3.1/name/${encodeURIComponent(c.name.common)}?fullText=true`;            
+                    opt.textContent = c.name.common.toUpperCase();
+                    sel.appendChild(opt);
+                });
+            })
+            .catch(err => {
+                sel.innerHTML = '<option value="">ERROR LOADING DATA</option>';
+                console.error(err);
+            });
+
+        sel.addEventListener('change', (e) => {
+            const fetchUrl = e.target.value;
+            if (!fetchUrl) {
+                detailsDiv.innerHTML = '';
+                return;
+            }
+
+            detailsDiv.innerHTML = '<div class="loader">FETCHING DATA...</div>';
+
+            fetch(fetchUrl)
+                .then(res => res.json())
+                .then(data => {
+                    const country = data[0];
+                    
+                    const currencies = country.currencies 
+                        ? Object.values(country.currencies).map(c => `${c.name} (${c.symbol || ''})`).join(', ') 
+                        : 'N/A';
+                    const languages = country.languages 
+                        ? Object.values(country.languages).join(', ') 
+                        : 'N/A';
+                    const borders = country.borders && country.borders.length > 0 
+                        ? country.borders.join(', ') 
+                        : 'NONE (ISLAND/ISOLATED)';
+                    const timezones = country.timezones ? country.timezones.join(', ') : 'N/A';
+
+                    detailsDiv.innerHTML = `
+                        <div class="details-card">
+                            <div class="details-header">
+                                <img class="flag-img" src="${country.flags.svg || country.flags.png}" alt="${country.name.common} flag">
+                                <h2>${country.name.common.toUpperCase()}</h2>
+                            </div>
+                            
+                            <div class="details-grid">
+                                <div class="detail-item">
+                                    <span class="label">Capital</span>
+                                    <span class="value">${country.capital ? country.capital[0].toUpperCase() : 'N/A'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Region</span>
+                                    <span class="value">${country.region.toUpperCase()} (${country.subregion || 'N/A'})</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Population</span>
+                                    <span class="value">${country.population.toLocaleString()}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Area</span>
+                                    <span class="value">${country.area.toLocaleString()} KM²</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Currencies</span>
+                                    <span class="value">${currencies.toUpperCase()}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Languages</span>
+                                    <span class="value">${languages.toUpperCase()}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Borders</span>
+                                    <span class="value">${borders}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Timezones</span>
+                                    <span class="value">${timezones}</span>
+                                </div>
+                            </div>
+
+                            <a href="${country.maps.googleMaps}" target="_blank" class="map-link">View on Google Maps →</a>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    detailsDiv.innerHTML = '<div class="error">FAILED TO FETCH DETAILS!</div>';
+                    console.error("Error fetching country details:", error);
+                });
+        });
+    </script>
+</body>
+</html>
