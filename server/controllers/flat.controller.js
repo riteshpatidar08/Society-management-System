@@ -1,5 +1,5 @@
 import Flat from '../model/flat.model.js';
-
+import User from '../model/user.model.js';
 export const createFlat = async (req, res) => {
   try {
     const { flatNumber, block, floor } = req.body;
@@ -24,9 +24,11 @@ export const getFlats = async (req, res) => {
 
 export const getFlatById = async (req, res) => {
   try {
-    const flat = await Flat.findById(req.params.id);
-    if (!flat) return res.status(404).json({ message: 'Flat not found' });
-    res.status(200).json({ data: flat });
+    const user = await User.findById(req.params.id).populate('flat')
+    console.log(user)
+    // const flat = await Flat.findById(req.params.id);
+    // if (!flat) return res.status(404).json({ message: 'Flat not found' });
+    res.status(200).json({ data: user.flat });
   } catch (error) {
     res.json({ error: error.message });
   }

@@ -14,9 +14,9 @@ function App() {
   console.log(errors);
   return (
     <div className="App">
-      <h1>React Hook form</h1>
+      {/* <h1>React Hook form</h1> */}
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      {/* <form onSubmit={handleSubmit(onSubmit)}>
         <label>Firstname</label>
         <input
           name="firstname"
@@ -55,7 +55,7 @@ function App() {
           <p className="text-red-500 font-medium"> {errors.lastname.message}</p>
         ) : null}
         <Button variant="primary"> Submit</Button>
-      </form>
+      </form> */}
 
       <AppRoutes />
     </div>

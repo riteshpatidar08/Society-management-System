@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import ManageFlat from '../pages/ManageFlat';
 import ManageComplaints from '../pages/ManageComplaints';
 import ManageNotices from '../pages/ManageNotices';
+import MyFlat from '../pages/MyFlat';
 
 const RoleBasedIndex = () => {
   const { role } = useSelector((state) => state.auth);
@@ -40,7 +41,7 @@ function AppRoutes() {
             <Route path="notices" element={<ManageNotices />} />
 
           
-            <Route path="my-flat" element={<ManageUsers />} />
+            <Route path="my-flat" element={<MyFlat/>} />
             <Route path="payments" element={<ManageUsers />} />
             <Route path="my-complaints" element={<ManageUsers />} />
           

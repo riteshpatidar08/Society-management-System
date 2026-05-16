@@ -66,12 +66,13 @@ const authSlice = createSlice({
         state.loading = false;
         state.message = action.payload.message;
         state.isAuthenticated = action.payload.authenticated;
-        const { name, email, role } = action.payload.data;
+        const { name, email, role  ,id} = action.payload.data;
         state.name = name;
         state.role = role;
         state.email = email;
         Cookies.set('name', name);
         Cookies.set('email', email);
+        Cookies.set('id' , id)
         Cookies.set('role', role);
         Cookies.set('isAuthenticated', action.payload.authenticated);
         console.log(state.email, state.role, state.isAuthenticated, state.name);
